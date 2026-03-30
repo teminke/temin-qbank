@@ -1,12 +1,31 @@
 import streamlit as st
 import streamlit.components.v1 as components
-from pathlib import Path
 
-st.set_page_config(page_title="Temin Qbank", layout="wide")
+# ===== 密碼保護 =====
+def check_password():
+    if "authenticated" not in st.session_state:
+        st.session_state.authenticated = False
 
-st.title("Temin 題庫")
+    if st.session_state.authenticated:
+        return True
 
-html_path = Path("Temin_quiz_pro_uworld_mode_batch.html")
-html_content = html_path.read_text(encoding="utf-8")
+    st.title("🔐 請輸入密碼")
 
-components.html(html_content, height=1100, scrolling=True)
+    password = st.text_input("Password", type="password")
+
+    if st.button("進入"):
+        if password == st.secrets["APP_PASSWORD"]:
+            st.session_state.authenticated = True
+            st.rerun()
+        else:
+            st.error("密碼錯誤")
+
+    return False
+
+
+# ===== 主程式 =====
+if check_password():
+    with open("temin_quiz_bank.html", "r", encoding="utf-8") as f:
+        html_content = f.read()
+
+    components.html(html_content, height=900, scrolling=True)
