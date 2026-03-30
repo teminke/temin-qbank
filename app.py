@@ -25,7 +25,7 @@ def check_password():
 
 # ===== 主程式 =====
 if check_password():
-    with open("temin_quiz_bank.html", "r", encoding="utf-8") as f:
+    with open("Temin_quiz_pro_uworld_mode_batch.html", "r", encoding="utf-8") as f:
         html_content = f.read()
 
     components.html(html_content, height=900, scrolling=True)
